@@ -8,8 +8,6 @@
 % Stopband Attenuation: 80 dB
 % Fpass = 16 kHz
 % Fstop = 20 kHz
-
-%
 clc;
 close all;
 clear;

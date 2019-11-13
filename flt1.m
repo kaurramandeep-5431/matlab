@@ -19,6 +19,7 @@ Ysba = spec_sba*ones(size(Wrange));
     [numHbw, denHbw] = butter(Nbw,Wnbw,'s');
     Hbw = tf(numHbw,denHbw);
     [Ybw_mag,Ybw_ph] = bode(Hbw, Wrange);
+    sys=ss(Hbw)
     Ybw_mag=reshape(Ybw_mag,[1 max(size(Ybw_mag))]);
     Ybw_ph=reshape(Ybw_ph,[1 max(size(Ybw_ph))]);
     
@@ -65,4 +66,31 @@ Ysba = spec_sba*ones(size(Wrange));
     xlabel('freq (kHz)');
     ylabel('phase (rad)');
     %hold on; xline(16000,'r-'); xline(30000,'r-');
+    
+    %chebbyshev
+    Ne = 8;
+    Rpe = 3;
+    Wpe = 2*pi*16000;
+    [numHe, denHe] = cheby1(Ne,Rpe,Wpe,'s');
+    He = tf(numHe,denHe);
+    [Ye_mag,Ye_ph] = bode(He, Wrange);
+    Ye_mag=reshape(Ye_mag,[1 max(size(Ye_mag))]);
+    Ye_ph=reshape(Ye_ph,[1 max(size(Ye_ph))]);
+
+    % plot response with specs superimposed
+    figure; plot(Frange, 20*log10(Ye_mag)); grid;
+    title('Elliptical Analog Filter Response (N=6)');
+    xlabel('freq (kHz)');
+    ylabel('response (dB)');
+    % plot specs/constraints for comparison
+    hold on; plot(Frange,20*log10(Ypbrpos),'r-', Frange,20*log10(Ypbrneg),'r-',Frange,20*log10(Ysba),'r-');
+   % xline(16000,'r-'); xline(30000,'r-');
+
+    % inspect phase response
+    figure; plot(Frange, Ye_ph); grid;
+    title('Elliptical Phase Response (N=6)');
+    xlabel('freq (kHz)');
+    ylabel('phase (rad)');
+    %hold on; xline(16000,'r-'); xline(30000,'r-');
+    
     

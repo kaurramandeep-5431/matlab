@@ -1,3 +1,4 @@
+
 function [vec] = delfcn(shift, range)
     
     % establish zero locatiom

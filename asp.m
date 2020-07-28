@@ -1,3 +1,4 @@
+
 for N=1:30
 T=1/1000;% time period of modulating signal t=1/fm
 t=(0:T/1000:10*T);%total time
